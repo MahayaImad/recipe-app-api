@@ -6,8 +6,13 @@ on: [push]
 jobs:
   test-lint:
     name: Test and Lint
-    runs-on:  ubuntu-latest
+    runs-on:  ubuntu-22.04
     steps:
+      - name: Install Docker Compose
+        run: |
+          curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -Po '"tag_name": "\K.*\d')" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
       - name: Longin to Docker Hub
         uses: docker/login-action@v1
         with:
